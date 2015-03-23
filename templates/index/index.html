@@ -1,0 +1,244 @@
+
+{{include file='common/header.html'}}
+<!--http://192.168.0.8:81/100msh_lt/?comp_id=32321-->
+
+	<header><em id="goback"></em><span id="title">广州联通</span></header>
+	
+    <div id="warpper">
+    	
+        <div id="loading"><span>正在加载..</span></div>
+        
+        <div id="error">页面不存在，请检查链接拼写</div>
+        
+        <div class="warp_inner">
+        
+            <!--首页-->
+            <div id="module-index" class="module"></div>
+            <!--首页 end-->
+            
+            <!--活动详情-->
+            <div id="module-activity" class="module"></div>
+            <!--活动详情 end-->
+            
+            <!--套餐详情-->
+            <div id="module-goodsInfo" class="module"></div>
+            <!--套餐详情 end-->
+            
+            <!--单一套餐-->
+            <div id="module-setMeal" class="module"></div>
+            <!--单一套餐 end-->
+            
+            <!--选择号码-->
+            <div id="module-selectNumber" noinit="1" class="module"></div>
+            <!--选择号码 end-->
+            
+            <!--收货信息-->
+            <div id="module-confirm" noinit="1" class="module"></div>
+            <!--收货信息 end-->
+        	
+            <!--提交成功-->
+            <div id="module-success" noinit="1" class="module"></div>
+            <!--提交成功 end-->
+            
+        </div>
+        
+    </div>
+
+{{include file='common/footer.html'}}
+<script type="template" id="tpl_success">
+<div class="sub_suc">
+	<h1><i></i>提交成功！</h1>
+	<p>联通客服会在1个工作日内审核通<br/>过后联系您确认该服务订单！</p>
+	<p class="state">系统<span id="countdown">5</span>秒后会自动返回联通首页！<br/>您还可以点击</p>
+	<p><a class="link" href="http://m.100msh.com/">百米首页</a></p>
+</div>
+</script>
+
+<script type="template" id="tpl_confirm">
+<div class="area_infos">
+<form id="AI_form" action="">
+	<input type="hidden" id="compId" name="comp_id" value="" />
+	<dl>
+		<dt>入网姓名：</dt>
+		<dd><input type="text" id="AI_name" name="net_name" placeholder="请填写您的真实姓名" data-empty="请填写您的真实姓名" data-error="真实姓名格式错误" /></dd>
+	</dl>
+	<dl>
+		<dt>身份证号：</dt>
+		<dd><input type="text" id="AI_card" name="id_card_num" placeholder="有效的身份证号" data-empty="请填写有效的身份证号" data-error="身份证号格式错误" /></dd>
+	</dl>
+	<dl>
+		<dt>收件人：</dt>
+		<dd><input type="text" id="AI_recipient" name="rec_name" placeholder="不填写默认入网姓名" data-empty="请填写收件人" data-error="收件人格式错误" /></dd>
+	</dl>
+	<dl>
+		<dt>联系电话：</dt>
+		<dd><input type="text" id="AI_phone" name="tel_number" placeholder="收件人联系电话" data-empty="请填写联系电话" data-error="联系电话格式错误" /></dd>
+	</dl>
+	<dl>
+		<dt>省份：</dt>
+		<dd>
+			<select autocomplete="off" id="AI_province" name="province" data-empty="请选择省份">
+				<option value="0">请选择</option>
+			</select>
+			<span class="select_arr"></span>
+		</dd>
+	</dl>
+	<dl>
+		<dt>城市：</dt>
+		<dd>
+			<select autocomplete="off" id="AI_city" name="city" data-empty="请选择城市">
+				<option value="0">请选择</option>
+			</select>
+			<span class="select_arr"></span>
+		</dd>
+	</dl>
+	<dl>
+		<dt>详细地址：</dt>
+		<dd><input type="text" id="AI_area" name="address" placeholder="收货地址" data-empty="请填写收货地址" /></dd>
+	</dl>
+	<dl>
+		<dt>备注：</dt>
+		<dd><textarea id="AI_remark" name="desc" data-error="备注最多150个字符"></textarea></dd>
+	</dl>
+	<div class="detail_btn"><input type="submit" id="confirm_submit" value="提交订单" /></div>
+</form>
+</div>
+</script>
+
+<script type="template" id="tpl_setMealDetail">
+<div class="sel_num">
+	<h2><i class="icon icon1"></i>套餐</h2>
+	<div class="head">
+		<img class="thumb" src="<%=data.img%>" alt="<%=data.name%>" />
+		<div class="con">
+			<h3><%=data.name%></h3>
+			<div class="des"><%=data.name%></div>
+			<p class="price">￥<%=data.price%>元</p>
+		</div>
+	</div>
+	<div id="phoneNumBox"></div>
+	<div class="detail_btn"><a href="#confirm" id="phoneNum_submit">马上定制</a></div>
+</div>
+</script>
+
+<script type="template" id="tpl_phoneNum">
+<h2><i class="icon icon2"></i>挑选号码</h2>
+<div class="list">
+	<div id="phoneNumList">
+	<div style=" overflow:hidden; width:100000rem;"> 
+		<!--一屏12个li ul中4个li-->
+		<div class="screen" id="screen_0">
+		<%var j = 0%>
+		<%_.each(data, function(item, i){%>
+		
+			<%if(j===0){%> <ul class="bline"> <%}%>
+			
+			<%j++%>
+			
+			<li data-id="<%=item.id%>"><a href="javascript:;"><i class="icon"></i><span class="text"><%=item.phone_number%></span></a></li>
+			
+			<%if(j%4===0){%>
+				</ul>
+				<%j=0%>
+			<%}%>
+			
+			<%var p = (i+1)/12%>
+			
+			<%if(/^[1-9]+[0-9]*$/.test(p) && i<data.length){%>
+				
+				<%if(j>0){%> </ul> <%}%>
+				
+				</div>
+				<div class="screen" id="screen_<%=p%>">
+				
+				<%j=0%>
+				
+			<%}%>
+			
+		<%});%>
+		
+	</div>
+	</div>
+	<div id="phoneNumListPager" class="scroll_pager"></div>
+</div>
+</script>
+
+<script type="template" id="tpl_setMeal">
+<div id="iScroll_tabs" class="package_tabs">
+	<ul>
+		<%_.each(data.key, function(item, i){%>
+		<li <%if (i==0){%> class="on" <%}%>><a href="javascript:;"><%=item.content%></a></li>
+		<%});%>
+	</ul>
+</div>
+<div class="package_con">
+	<h2 class="tit" id="packTit"><%if(data.key.length){%><%=data.key[0].content%><%}%></h2>
+	<div id="iScroll_con">
+		<div>
+			<%_.each(data.key, function(_item, y){%>
+			<ul <%if (y==0){%> class="on" <%}%> data-tit="<%=_item.content%>">
+				<%_.each(_item.attrs, function(item, i){%>
+				<li class="" data-aid="<%=item.attr_id%>" data-cid="<%=item.content_id%>"><a href="javascript:;"><i class="icon"></i><%=item.attr_name%></a></li>
+				<%});%>
+			</ul>
+			<%});%>
+		</div>
+	</div>
+</div>
+<div class="detail_btn"><a id="setMeal_submit" href="#selectNumber">马上定制</a></div>
+</script>
+
+<script type="template" id="tpl_goodsInfo">
+<div class="detail_box"><p><img src="<%=data.img%>" /></p><%=data.content%></div>
+<div class="detail_btn"><a href="#setMeal-product_id~<%=data.product_id%>">选择套餐</a></div>
+</script>
+
+<script type="template" id="tpl_activity">
+<div class="end_time bline"><span class="icon"></span>结束时间：<%=data.end_time%></div>
+<div class="detail_box"><%=data.content%></div>
+</script>
+
+<script type="template" id="tpl_index">
+<div class="scroll_box">
+	<a href="javascript:;" class="scroll_prev" id="scrollPrev">prev</a>
+	<a href="javascript:;" class="scroll_next" id="scrollNext">next</a>
+	<div class="scroll">
+		<div id="scroll">
+			<ul>
+				<%_.each(data.product, function(item, i){%>
+				<li class="screen"><a href="#goodsInfo-product_id~<%=item.product_id%>"><img src="<%=item.img%>" alt="<%=item.title%>" /></a></li>
+				<%});%>
+			</ul>
+		</div>
+	</div>
+	<div id="scrollPager" class="scroll_pager"></div>
+</div>
+
+<div id="noticeSlider" class="notice">
+	<div class="icon"></div>
+	<ul>
+		<%_.each(data.activity, function(item, i){%>
+		<li><a href="#activity-id~<%=item.id%>"><%=item.title%></a></li>
+		<%});%>
+	</ul>
+</div>
+
+<div class="indexlist">
+	<h2 class="title">商家附近优惠<a class="more" href="http://m.100msh.com/#discountlist~area-1~sort_id-2">更多优惠</a></h2>
+	<ul>
+		<%_.each(data.coupon, function(item, i){%>
+		<li>
+			<a href="http://m.100msh.com/#discountinfo~id-<%=item.pre_id%>">
+				<span class="dist"><<%=item.dist%>m</span>
+				<div class="thumb"><img src="<%=item.image%>" alt="<%=item.title%>" /></div>
+				<div class="con">
+					<h3 class="tit"><%=item.title%></h3>
+					<p class="time"><i class="icon"></i><%=item.start_time%> - <%=item.end_time%></p>
+					<p class="des"><%=item.details%></p>
+				</div>
+			</a>
+		</li>
+		<%});%>
+	</ul>
+</div>
+</script>

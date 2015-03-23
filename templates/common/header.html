@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+	<title>{{if isset($title) }} {{$title}} - {{/if}}百米生活-广州联通</title>
+    <link rel="shortcut icon" href="{{$__HOMEURL__}}public/src/img/favicon.ico" />
+    <link rel="stylesheet" href="{{$__PUBLIC__}}/css/base.css" />
+	<script>
+    (function(window) {
+        var BMSH = window.BMSH = (function(bm) {
+            bm.VERSION = '2.0.4.001'; //版本号
+            bm.path = {
+                PUBLIC: '{{$__PUBLIC__}}',
+                ROOT: '{{$__ROOT__}}', //项目根目录
+                SRC: '{{$__SRCURL__}}' //静态文件目录
+            };
+            return bm;
+        })(window.BMSH || {});
+    })(window, undefined);
+    </script>
+</head>
+<body>
